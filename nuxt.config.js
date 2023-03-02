@@ -2,6 +2,10 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+
+  ssr: true,
+  target: 'server',
+
   head: {
     titleTemplate: '%s - story_web',
     title: 'story_web',
@@ -40,6 +44,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    'cookie-universal-nuxt'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -68,7 +73,7 @@ export default {
   },
 
   router: {
-    middleware: 'chapter'
+    middleware: 'index'
   },  
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
