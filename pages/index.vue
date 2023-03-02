@@ -7,6 +7,16 @@
                     <h1>Products</h1>
                 </v-card-title>
                 <v-card-text>
+                    <v-text-field
+                        v-model="search"
+                        append-icon="mdi-magnify"
+                        label="Search"
+                        single-line
+                        hide-details
+                        @keyup="searchProductsTimeout"
+                    ></v-text-field>
+                </v-card-text>
+                <v-card-text>
                     <v-list v-if="$vuetify.breakpoint.smAndDown">
                         <v-list-item
                             v-for="item in products"
@@ -117,6 +127,7 @@ export default {
     name: 'Index',
     data() {
         return {
+            search: '',
             // headers for the product table, name, description, price and stock
             headers: [
                 { text: 'Name', value: 'name' },
@@ -139,12 +150,18 @@ export default {
         }
     },
 
-    // when mounted, retrieve produts and the cart if email is set
+    // when mounted, retrieve produts and the cart if email is set and restore the search from cookie
     created () {
-        this.getProducts()
         if (this.email) {
             this.getCart()
-        }
+
+            // check if the search cookie is undefined or null, and if not, set the search to the cookie value
+            if (this.$cookies.get('search') !== undefined && this.$cookies.get('search') !== null) {
+                this.search = this.$cookies.get('search')                
+            }
+        } 
+
+        this.searchProducts(this.search)
     },
 
     computed: {
@@ -155,7 +172,17 @@ export default {
 
     methods: {
         // map vuex actions to methods
-        ...mapActions(['getProducts', 'getCart', 'addToCart', 'removeItemFromCart'])
+        ...mapActions(['getProducts', 'getCart', 'addToCart', 'removeItemFromCart', 'searchProducts']),
+
+        // search products
+        // delay the search for 500ms from last keypress and store the search in a cookie
+        searchProductsTimeout() {
+            clearTimeout(this.searchTimeout)
+            this.searchTimeout = setTimeout(() => {
+                this.searchProducts(this.search)
+                this.$cookies.set('search', this.search)
+            }, 500)
+        }
     }
 }
 </script>

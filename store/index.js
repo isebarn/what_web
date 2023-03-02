@@ -82,7 +82,15 @@ export const actions = {
     // logout, removes the email and routes to '/login'
     async logout({ commit }) {
         this.$cookies.remove('email');
+        this.$cookies.remove('search')
         commit('resetState');
         this.$router.push('/login');        
+    },
+
+    // search product with a filter query parameter and commit to state.products
+    async searchProducts({ commit }, query) {
+        const response = await this.$axios.get(`product?$queryset=search&filter=${query}`);
+        commit('setProducts', response.data);
     }
+    
 }
