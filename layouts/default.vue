@@ -36,11 +36,10 @@ export default {
 
   methods: {
     // map vuex actions to methods
-    ...mapActions(['logout']),
+    ...mapActions(['logout', 'resetState']),
 
     // logout method
     logoutUser() {
-      this.$cookies.remove('email')
       this.logout()
     },
   },

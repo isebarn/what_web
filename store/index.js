@@ -37,6 +37,12 @@ export const mutations = {
     // remove item from cart
     removeItemFromCart(state, item) {
         state.cart = state.cart.filter(cartItem => cartItem.id !== item.id);
+    },
+
+    // reset the state
+    resetState(state) {
+        state.cart = []
+        state.email = null
     }
 };
 
@@ -75,6 +81,8 @@ export const actions = {
 
     // logout, removes the email and routes to '/login'
     async logout({ commit }) {
-        this.$router.push('/login');
+        this.$cookies.remove('email');
+        commit('resetState');
+        this.$router.push('/login');        
     }
 }
