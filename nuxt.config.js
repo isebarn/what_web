@@ -7,8 +7,8 @@ export default {
   target: 'server',
 
   head: {
-    titleTemplate: '%s - story_web',
-    title: 'story_web',
+    titleTemplate: '%s - what web',
+    title: 'what web',
     htmlAttrs: {
       lang: 'en'
     },
